@@ -1,6 +1,12 @@
-import { ActivityResponse } from '@stream-io/feeds-react-sdk';
+import {
+  ActivityResponse,
+  useClientConnectedUser,
+} from '@stream-io/feeds-react-sdk';
+import { ToggleFollowButton } from '../ToggleFollowButton';
 
 export const Activity = ({ activity }: { activity: ActivityResponse }) => {
+  const currentUser = useClientConnectedUser();
+
   return (
     <div className="w-full p-4 bg-base-100 card border border-base-300">
       <div className="w-full flex items-start gap-4">
@@ -15,6 +21,9 @@ export const Activity = ({ activity }: { activity: ActivityResponse }) => {
             <span className="text-sm text-base-content/80">
               {activity.created_at.toLocaleString()}
             </span>
+            {activity.current_feed?.feed !== `user:${currentUser?.id}` && (
+              <ToggleFollowButton feed={activity.current_feed!} />
+            )}
           </div>
           <p className="w-full">{activity.text}</p>
         </div>
