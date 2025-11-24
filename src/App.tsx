@@ -1,6 +1,7 @@
 import { StreamFeeds, useCreateFeedsClient } from '@stream-io/feeds-react-sdk';
 import { AppSkeleton } from './AppSkeleton';
 import { API_KEY, CURRENT_USER } from './user';
+import { OwnFeedsContextProvider } from './own-feeds-context';
 
 export default function App() {
   const client = useCreateFeedsClient({
@@ -18,7 +19,9 @@ export default function App() {
 
   return (
     <StreamFeeds client={client}>
-      <AppSkeleton />
+      <OwnFeedsContextProvider>
+        <AppSkeleton />
+      </OwnFeedsContextProvider>
     </StreamFeeds>
   );
 }
