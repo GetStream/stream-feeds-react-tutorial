@@ -1,18 +1,24 @@
 import { useFeedContext } from '@stream-io/feeds-react-sdk';
 import { useCallback, useState } from 'react';
+import { FileUpload } from './FileUpload';
 
 export const ActivityComposer = () => {
   const feed = useFeedContext();
   const [newText, setNewText] = useState('');
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
   const sendActivity = useCallback(async () => {
     await feed?.addActivity({
       text: newText,
       // Type can be any string you want
       type: 'post',
+      attachments: imageUrl
+        ? [{ type: 'image', image_url: imageUrl, custom: {} }]
+        : [],
     });
     setNewText('');
-  }, [feed, newText]);
+    setImageUrl(undefined);
+  }, [feed, newText, imageUrl]);
 
   return (
     <div className="w-full p-4 bg-base-100 card border border-base-300">
@@ -25,7 +31,15 @@ export const ActivityComposer = () => {
           onChange={(e) => setNewText(e.target.value)}
           style={{ resize: 'none' }}
         />
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt="Uploaded image"
+            className="w-50 h-50 object-cover rounded-lg"
+          />
+        )}
         <div className="w-full flex justify-end items-center gap-2">
+          <FileUpload onImageUploaded={setImageUrl} />
           <button
             className="btn btn-primary flex-shrink-0"
             onClick={sendActivity}
