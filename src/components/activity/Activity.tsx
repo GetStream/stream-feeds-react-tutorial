@@ -4,6 +4,8 @@ import {
 } from '@stream-io/feeds-react-sdk';
 import { ToggleFollowButton } from '../ToggleFollowButton';
 import { ToggleReaction } from './ToggleReaction';
+import { CommentList } from '../comments/CommentList';
+import { CommentComposer } from '../comments/CommentComposer';
 
 export const Activity = ({ activity }: { activity: ActivityResponse }) => {
   const currentUser = useClientConnectedUser();
@@ -29,8 +31,14 @@ export const Activity = ({ activity }: { activity: ActivityResponse }) => {
           <p className="w-full">{activity.text}</p>
           <div className="w-full flex flex-col gap-2">
             <div className="flex flex-row gap-2">
+              <button type="button" className="btn cursor-default">
+                💬&nbsp;
+                {activity.comment_count}
+              </button>
               <ToggleReaction activity={activity} />
             </div>
+            <CommentComposer activity={activity} />
+            <CommentList activity={activity} />
           </div>
         </div>
       </div>
