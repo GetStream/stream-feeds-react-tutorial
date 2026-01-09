@@ -12,7 +12,7 @@ git checkout initial-commit
 yarn
 ```
 
-- Follow instructions from: TODO - tutorial isn't yet deployed
+- Follow instructions from [the tutorial](https://getstream.io/activity-feeds/sdk/react/)
 
 If you just want to run the final tutorial, provide your credentials in `src/user.ts`.
 
